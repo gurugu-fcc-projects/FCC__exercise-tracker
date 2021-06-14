@@ -13,6 +13,18 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+mongoose.connect(
+  process.env.MONGO_URI,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Mongo DB connected");
+
+      const listener = app.listen(process.env.PORT || 3000, () => {
+        console.log("Your app is listening on port " + listener.address().port);
+      });
+    }
+  }
+);
