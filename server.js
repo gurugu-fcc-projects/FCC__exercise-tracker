@@ -20,7 +20,7 @@ mongoose.connect(
     if (err) {
       console.log(err);
     } else {
-      console.log("Mongo DB connected");
+      console.log("Mongo database connected");
 
       const listener = app.listen(process.env.PORT || 3000, () => {
         console.log("Your app is listening on port " + listener.address().port);
