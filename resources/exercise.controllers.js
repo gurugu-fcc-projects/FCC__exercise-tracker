@@ -29,7 +29,5 @@ module.exports.createExercise = async (req, res) => {
     description: exercise.description,
   };
 
-  console.log(returnObject);
-
   res.status(200).json(returnObject);
 };
