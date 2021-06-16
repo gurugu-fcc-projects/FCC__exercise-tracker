@@ -14,10 +14,22 @@ module.exports.createExercise = async (req, res) => {
     res.status(400).json({ error: "There is no user with such ID" });
   }
 
-  const exercise = await Exercise.create({
+  const exercise = new Exercise({
     user: userId,
     ...req.body,
   });
 
-  res.status(200).json(exercise);
+  await exercise.save();
+
+  const returnObject = {
+    _id: user._id,
+    username: user.username,
+    date: exercise.date.toDateString(),
+    duration: exercise.duration,
+    description: exercise.description,
+  };
+
+  console.log(returnObject);
+
+  res.status(200).json(returnObject);
 };
