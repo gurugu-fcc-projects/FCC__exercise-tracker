@@ -16,7 +16,9 @@ module.exports.createExercise = async (req, res) => {
 
   const exercise = new Exercise({
     user: userId,
-    ...req.body,
+    date: req.body.date || Date.now(),
+    description: req.body.description,
+    duration: req.body.duration,
   });
 
   await exercise.save();
@@ -27,6 +29,31 @@ module.exports.createExercise = async (req, res) => {
     date: exercise.date.toDateString(),
     duration: exercise.duration,
     description: exercise.description,
+  };
+
+  res.status(200).json(returnObject);
+};
+
+module.exports.getExercises = async (req, res) => {
+  const userId = req.params.id;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(400).json({ error: "There is no user with such ID" });
+  }
+
+  const exercises = await Exercise.find({ user: userId });
+
+  const convertedExercises = exercises.map(exercise => ({
+    ...exercise,
+    date: exercise.date.toDateString(),
+  }));
+
+  const returnObject = {
+    _id: user._id,
+    username: user.username,
+    logs: convertedExercises,
   };
 
   res.status(200).json(returnObject);

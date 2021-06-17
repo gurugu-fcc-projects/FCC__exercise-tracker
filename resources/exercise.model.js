@@ -16,8 +16,13 @@ const exerciseSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now(),
   },
+});
+
+exerciseSchema.pre("find", function (next) {
+  this.select("-__v -user").update({ date: });
+
+  next();
 });
 
 const Exercise = mongoose.model("Exercise", exerciseSchema);
