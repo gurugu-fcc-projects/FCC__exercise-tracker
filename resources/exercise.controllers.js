@@ -43,7 +43,13 @@ module.exports.getExercises = async (req, res) => {
     res.status(400).json({ error: "There is no user with such ID" });
   }
 
-  const exercises = await Exercise.find({ user: userId });
+  const query = Exercise.find({ user: userId });
+
+  if (req.query.limit) {
+    query.limit(+req.query.limit);
+  }
+
+  const exercises = await query.exec();
 
   const convertedExercises = exercises.map(exercise => ({
     description: exercise.description,
