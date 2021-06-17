@@ -54,6 +54,7 @@ module.exports.getExercises = async (req, res) => {
   const returnObject = {
     _id: user._id,
     username: user.username,
+    count: convertedExercises.length,
     log: convertedExercises,
   };
 
