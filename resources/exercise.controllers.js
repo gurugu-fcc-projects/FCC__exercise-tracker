@@ -46,14 +46,15 @@ module.exports.getExercises = async (req, res) => {
   const exercises = await Exercise.find({ user: userId });
 
   const convertedExercises = exercises.map(exercise => ({
-    ...exercise,
+    description: exercise.description,
+    duration: exercise.duration,
     date: exercise.date.toDateString(),
   }));
 
   const returnObject = {
     _id: user._id,
     username: user.username,
-    logs: convertedExercises,
+    log: convertedExercises,
   };
 
   res.status(200).json(returnObject);
