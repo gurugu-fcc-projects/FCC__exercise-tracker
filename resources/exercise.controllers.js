@@ -48,6 +48,12 @@ module.exports.getExercises = async (req, res) => {
   if (req.query.limit) {
     query.limit(+req.query.limit);
   }
+  if (req.query.from) {
+    query.where('date').gte(new Date(req.query.from));
+  }
+  if (req.query.to) {
+    query.where('date').lte(new Date(req.query.to));
+  }
 
   const exercises = await query.exec();
 
