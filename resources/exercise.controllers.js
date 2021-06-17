@@ -16,7 +16,7 @@ module.exports.createExercise = async (req, res) => {
 
   const exercise = new Exercise({
     user: userId,
-    date: req.body.date || Date.now(),
+    date: req.body.date ? new Date(req.body.date) : Date.now(),
     description: req.body.description,
     duration: req.body.duration,
   });
